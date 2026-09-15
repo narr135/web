@@ -1,0 +1,91 @@
+body {
+    color: white;
+    width: 80%;
+    margin: 0 auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #008c9e;
+}
+
+.navlinks a {
+    color: #d2d9d2;
+}
+
+.navbar {
+    color: #d2d9d2;
+    margin: 0px;
+    height: auto;
+    display: flex;
+    padding: 0 10rem;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-right: 1rem solid #f6eeeb;
+}
+
+.navlinks {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+}
+
+.about {
+    background-color: #f6eeeb;
+    width: 100%;
+    height: auto;
+}
+
+#about-bg {
+    height: 28rem;
+    background-image: url(./images/main-pic.jpg);
+    background-size: auto;
+    background-position: top right;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+#about-text {
+    position: absolute;
+    background-color: #008c9e;
+    bottom: 3rem;
+    left: 18rem;
+    font-size: 2rem;
+}
+
+.content {
+    background-color: #f6eeeb;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 65%;
+  margin: 1rem auto;
+  margin-top: 0px;
+}
+
+.card {
+  color: white;
+  padding: 2rem;
+  height: auto;
+  width: auto;
+  margin: 0px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
+.card-text {
+    position: absolute;
+    bottom: 0px;
+    right: 1rem;
+    width: auto;
+    padding: 0.3rem;
+}
