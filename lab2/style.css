@@ -39,6 +39,11 @@ a:hover {
     color: #FFC11A;
 }
 
+.container {
+    padding: 0px;
+    margin: 0px;
+}
+
 .about {
     width: 100%;
     margin: 0px;
