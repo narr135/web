@@ -164,7 +164,7 @@ a:hover {
     letter-spacing: 1px;
 }
 
-.event-item {
+.event {
     display: flex;
     margin-bottom: 15px;
     align-items: center;

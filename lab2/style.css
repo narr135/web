@@ -112,10 +112,16 @@ a:hover {
 }
 
 .button {
-    width: 40%;
-    margin: 1rem auto;
-    padding: 1rem;
     color: white;
+    border: none;
+    padding: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    width: fit-content;
+}
+
+.button:hover {
+    cursor: pointer;
 }
 
 .footer {
@@ -128,4 +134,8 @@ a:hover {
     text-align: center;
     justify-content: space-between;
     background-color: #204B52;
+}
+
+.footer a:hover {
+    color: white;
 }
