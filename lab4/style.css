@@ -24,26 +24,26 @@ body {
 }
 
 .section-title {
-    color: #3b3b5c;
+    color: #504d6a;
 }
 
 
 .btn-custom-dark {
-    background-color: #3b3b5c;
+    background-color: #504d6a;
     color: #fff;
     border-radius: 50px;
     font-size: 0.85rem;
     font-weight: bold;
-    border: 1px solid #3b3b5c;
+    border: 1px solid #504d6a;
 }
 
 .btn-custom-light {
-    background-color: #a5949d;
+    background-color: #a08999;
     color: #fff;
     border-radius: 50px;
     font-size: 0.85rem;
     font-weight: bold;
-    border: 1px solid #a5949d;
+    border: 1px solid #a08999;
 }
 
 .hero-section {
@@ -53,7 +53,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden; 
-    color: #3b3b5c;
+    color: #504d6a;
 }
 
 .hero-overlay {
@@ -82,7 +82,8 @@ body {
 }
 
 .work-section {
-    background-color: white;
+    background-color: #ebebeb;
+    color: #504d6a !important;
 }
 
 .section-divider {
@@ -97,7 +98,7 @@ body {
     height: 180px;
     border-radius: 50%;
     overflow: hidden;
-    border: 20px solid white;
+    border: 1rem solid white;
 }
 
 .circle-image-wrapper img {
@@ -107,14 +108,10 @@ body {
 }
 
 .awesome-section h3 {
-    color: #3b3b5c;
+    color: #504d6a;
 }
 
 .footer-section {
     background-color: #555;
-}
-
-.text-light-muted {
-    color: grey;
-    font-family: sans-serif;
+    color: white !important;
 }
