@@ -1,3 +1,135 @@
+<<<<<<< HEAD
+body {
+    background-color: #2A606C;
+    color: white;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0px;
+}
+
+div {
+    margin: 1rem;
+}
+
+.navbar {
+    margin: 0px;
+    height: auto;
+    display: flex;
+    padding: 0 10rem;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #204B52;
+}
+
+.navlinks {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #FFC11A;
+}
+
+.about {
+    width: 100%;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    flex-direction: column;
+    padding: 8rem 1rem;
+    background-image: url("./img/main-pic.png");
+    background-size: 75% auto;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 65%;
+  margin: 1rem auto;
+  margin-top: 0px;
+}
+
+.card {
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  height: auto;
+  margin: 0px;
+}
+
+.background {
+    margin: 0px;
+    padding: 1rem;
+    border: 0px;
+    border-radius: 100%;
+    display: inline-block; 
+}
+
+#text-with-line {
+    background-color: #2A606C;
+    display: inline;
+    position: relative;
+}
+
+#text-with-line::before {
+    content: "";
+    position: absolute;
+    left: -15%;
+    right: 15%;
+    width: 130%;
+    top: 50%;
+    height: 2px;
+    background-color: #316D78;
+    z-index: -1;
+}
+
+.staff {
+    display: grid;
+    justify-content: center;
+    grid-auto-flow: column;
+    grid-auto-columns: 20%;
+    gap: 2rem;
+}
+
+.icon {
+    margin: 0px;
+    border: 0px;
+    border-radius: 100%;
+    display: inline-block; 
+}
+
+.button {
+    width: 40%;
+    margin: 1rem auto;
+    padding: 1rem;
+    color: white;
+}
+
+.footer {
+    margin: 0px;
+    margin-top: 5rem;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    background-color: #204B52;
+=======
 body {
     background-color: #2A606C;
     color: white;
@@ -143,4 +275,5 @@ a:hover {
 
 .footer a:hover {
     color: white;
+>>>>>>> 9ba7dec7674e5eaee119d94d2cdc6da9b8925b33
 }
