@@ -6,11 +6,11 @@ class App(tk.Tk):
         self.title("Sidebar Navigation Example")
         self.geometry("700x450")
 
-        self.sidebar = tk.Frame(self, width=180, bg="#2c3e50")
+        self.sidebar = tk.Frame(self, width=180, bg="#121824")
         self.sidebar.pack(fill="y", side="left")
         self.sidebar.pack_propagate(False) # Prevents sidebar from shrinking
 
-        self.main_container = tk.Frame(self, bg="#ecf0f1")
+        self.main_container = tk.Frame(self, bg="#1A2333")
         self.main_container.pack(fill="both", expand=True, side="right")
 
         self.frames = {}
@@ -45,7 +45,7 @@ class App(tk.Tk):
             text=text, 
             bg="#34495e", 
             fg="white", 
-            activebackground="#1abc9c",
+            activebackground="#2D3748",
             relief="flat",
             command=lambda: self.show_frame(page_name)
         )
@@ -57,62 +57,62 @@ class App(tk.Tk):
 
 class DiscountCalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Discount Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Discount Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class TempConverter(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Temperature Converter", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Temperature Converter", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class RectangleCalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Rectangle Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Rectangle Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class AVGGradeCalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Average Grade Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Average Grade Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class TimeConverter(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Time Converter", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Time Converter", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class SalaryCalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Salary Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Salary Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class BMICalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="BMI Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="BMI Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class CircleCalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Circle Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Circle Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40)
 
 class LoanCalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Loan Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Loan Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40) 
 
 class ShoppingCartCalc(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#ffffff")
-        label = tk.Label(self, text="Shopping Cart Calculator", font=("Arial", 18), bg="#ffffff")
+        super().__init__(parent, bg="#1A2333")
+        label = tk.Label(self, text="Shopping Cart Calculator", font=("Arial", 18), bg="#1A2333")
         label.pack(pady=40, padx=40) 
 
 if __name__ == "__main__":
