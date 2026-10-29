@@ -1,0 +1,9 @@
+body {
+    min-height: 100vh;
+    max-width: 25%;
+    margin: 5% auto;
+}
+
+div{
+    margin-bottom: 0.25rem;
+}

@@ -1,0 +1,40 @@
+.profile-photo {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+}
+
+.cv-card {
+    border: 0;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 1rem rgba(13, 110, 253, 0.08);
+}
+
+.section-title {
+    font-size: 1.15rem;
+    letter-spacing: 0.02em;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid white;
+}
+
+.skill-badge {
+    font-weight: 500;
+}
+
+.timeline-year {
+    white-space: nowrap;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: #abb0b4;
+}

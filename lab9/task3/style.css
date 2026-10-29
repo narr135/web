@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #222;
+    background-color: #fff;
+}
+
+h1 {
+    margin: 30px 20px;
+    text-align: center;
+}
+
+nav {
+    max-width: 95%;
+    background-color: #6dcd49;
+    padding: 10px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    display: inline-block;
+    padding: 8px 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #000;
+}
+
+.city {
+    max-width: 95%;
+    margin: 20px auto;
+    padding: 30px 10px;
+}
+
+.city h3 {
+    margin-top: 0;
+}
+
+.city p {
+    margin-bottom: 0;
+}
+
+#london {
+    background-color: #ffc0cb;
+}
+
+#paris {
+    background-color: #b0e0e6;
+}
+
+#lisbon {
+    background-color: #fff3cd;
+}
+
+#rome {
+    background-color: #ede9fe;
+}
+
+#oslo {
+    background-color: #dcfce7;
+}

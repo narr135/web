@@ -1,0 +1,176 @@
+body {
+    font-family: Arial, sans-serif;
+    color: #202124;
+    background-color: #fff;
+}
+
+.top-links a {
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.top-links a:hover {
+    text-decoration: underline;
+}
+
+.apps-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #5f6368;
+}
+
+.apps-button:hover {
+    background-color: rgba(60, 64, 67, 0.08);
+}
+
+.profile-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background-color: #1a73e8;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.google-logo {
+    width: 272px;
+    max-width: 80vw;
+    height: auto;
+}
+
+.search-logo,
+.mic-logo,
+.lens-logo {
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+.search-form {
+    width: 100%;
+    max-width: 584px;
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+}
+
+.search-box .google-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.search-box .search-icon {
+    left: 16px;
+}
+
+.search-box .mic-icon {
+    right: 56px;
+}
+
+.search-box .lens-icon {
+    right: 16px;
+}
+
+.search-input {
+    width: 100%;
+    height: 46px;
+    padding: 0 96px 0 48px;
+    font-size: 16px;
+    color: #202124;
+    background-color: #fff;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    outline: none;
+}
+
+.search-input:hover {
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    border-color: rgba(223, 225, 229, 0);
+}
+
+.search-input:focus {
+    border-color: rgba(223, 225, 229, 0);
+    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+}
+
+.google-buttons .btn {
+    min-width: 127px;
+    height: 36px;
+    padding: 0 16px;
+    font-size: 14px;
+    color: #3c4043;
+    background-color: #f8f9fa;
+    border: 1px solid #f8f9fa;
+    border-radius: 4px;
+}
+
+.google-buttons .btn:hover,
+.google-buttons .btn:focus {
+    color: #202124;
+    background-color: #f8f9fa;
+    border-color: #dadce0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.language-line {
+    font-size: 13px;
+    color: #4d5156;
+}
+
+.language-line a {
+    color: #1a0dab;
+    text-decoration: none;
+}
+
+.language-line a:hover {
+    text-decoration: underline;
+}
+
+.footer {
+    background-color: #f2f2f2;
+    border-top: 1px solid #dadce0;
+    font-size: 14px;
+    color: #70757a;
+}
+
+.footer a {
+    color: #70757a;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    .google-logo {
+    width: 200px;
+    }
+
+    .search-logo, .mic-logo, .lens-logo {
+        width: 20px;
+        height: 20px;
+    }
+
+    .google-buttons .btn {
+    min-width: 0;
+    }
+}
