@@ -209,6 +209,21 @@ def shopping_cart_calculator():
     print(f"Final total:\t{final_total:.2f}")
 
 
+def salary_calculator2():
+    salary = int(input())
+    if salary <= 0:
+        print("Invalid input")
+    opv = salary * .1
+    so = salary * .05
+    ipn = salary * .04
+    vosms = 5950
+    print(f"OPV = {opv}")
+    print(f"SO = {so}")
+    print(f"IPN = {ipn}")
+    print(f"VOSMS = {vosms}")
+    print(f"Total = {salary - opv - so - ipn - vosms}")
+
+
 def show_menu():
     print("\nweb lab6")
     print(" 1. Discount Calculator")
@@ -221,10 +236,11 @@ def show_menu():
     print(" 8. Circle Calculator")
     print(" 9. Loan Calculator")
     print("10. Shopping Cart Calculator")
+    print("11. Salary Calculator 2")
     print(" 0. Exit")
 
 
-def main():
+if __name__ == "__main__":
     tasks = {
         1: discount_calculator,
         2: temperature_converter,
@@ -236,11 +252,12 @@ def main():
         8: circle_calculator,
         9: loan_calculator,
         10: shopping_cart_calculator,
+        11: salary_calculator2,
     }
 
-    while True:
+    while 1:
         show_menu()
-        choice = input("Select a task (0-10): ").strip()
+        choice = input(f"Select a task (0-{len(tasks)}): ").strip()
 
         if choice == "0":
             break
@@ -252,7 +269,3 @@ def main():
                 print("\nInvalid input")
         else:
             print("\nInvalid input")
-
-
-if __name__ == "__main__":
-    main()
