@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Task 5{% endblock %}
+
+{% block content %}
+  <h2>Task 5 - Client-Side + Server-Side Validation</h2>
+
+  <form method="POST" action="/task5">
+    <p><label>Full Name:</label>
+       <input type="text" name="name" value="{{ data.name }}" required></p>
+
+    <p><label>Email:</label>
+       <input type="email" name="email" value="{{ data.email }}" required></p>
+
+    <p><label>Age:</label>
+       <input type="number" name="age" value="{{ data.age }}"
+              min="18" max="100" required></p>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  {% if errors %}
+    <ul class="errors">
+      {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if success %}
+    <p class="success">Registration data is valid!</p>
+  {% endif %}
+{% endblock %}

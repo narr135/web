@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <h2>Welcome, {{ user.name }}!</h2>
+
+  <p>You are logged in with the following details stored in <code>users.csv</code>:</p>
+  <ul>
+    <li><strong>Name:</strong> {{ user.name }}</li>
+    <li><strong>Email:</strong> {{ user.email }}</li>
+    <li><strong>Age:</strong> {{ user.age }}</li>
+  </ul>
+
+  <p><a href="{{ url_for('logout') }}">Log out</a></p>
+{% endblock %}

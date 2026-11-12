@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Practical 10{% endblock %}</title>
+  <style>
+    body        { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+    nav a       { margin-right: 12px; text-decoration: none; color: #0645ad; }
+    nav a:hover { text-decoration: underline; }
+    hr          { margin: 16px 0 24px; }
+    label       { display: inline-block; min-width: 110px; }
+    input       { padding: 4px 6px; margin: 4px 0; }
+    button      { padding: 6px 14px; margin-top: 8px; cursor: pointer; }
+    .error      { color: orangered; }
+    .success    { color: yellowgreen; }
+    ul.errors   { color: orangered; padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/task1">Task 1</a>
+    <a href="/task2">Task 2</a>
+    <a href="/task3">Task 3</a>
+    <a href="/task4">Task 4</a>
+    <a href="/task5">Task 5</a>
+  </nav>
+  <hr>
+
+  {% block content %}{% endblock %}
+</body>
+</html>

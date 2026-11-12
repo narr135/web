@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Practical 10 — Home{% endblock %}
+
+{% block content %}
+  <h2>Practical Work 10 — Form Validation</h2>
+  <ul>
+    <li><a href="{{ url_for('task1') }}">Task 1 — Name required</a></li>
+    <li><a href="{{ url_for('task2') }}">Task 2 — Email validation</a></li>
+    <li><a href="{{ url_for('task3') }}">Task 3 — Age 18–100</a></li>
+    <li><a href="{{ url_for('task4') }}">Task 4 — Complete registration + CSV + login</a></li>
+    <li><a href="{{ url_for('task5') }}">Task 5 — Client + server validation</a></li>
+  </ul>
+
+  <p>
+    <a href="{{ url_for('login') }}">→ Login</a> |
+    <a href="{{ url_for('dashboard') }}">→ Dashboard</a>
+  </p>
+{% endblock %}

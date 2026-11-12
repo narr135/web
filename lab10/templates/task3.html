@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Task 3{% endblock %}
+
+{% block content %}
+  <h2>Task 3 - Age Validation (18-100)</h2>
+
+  <form method="POST" action="/task3">
+    <label>Age:</label>
+    <input type="text" name="age" value="{{ age }}">
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  {% if result %}
+    <p class="{{ 'success' if success else 'error' }}">{{ result }}</p>
+  {% endif %}
+{% endblock %}
