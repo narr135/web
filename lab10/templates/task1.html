@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Task 1{% endblock %}
+
+{% block content %}
+  <h2>Task 1 - Student Registration</h2>
+
+  <form method="POST" action="/task1">
+    <label>Student Name:</label>
+    <input type="text" name="student" value="{{ name }}">
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  {% if message %}
+    <p class="{{ 'success' if success else 'error' }}">{{ message }}</p>
+  {% endif %}
+{% endblock %}

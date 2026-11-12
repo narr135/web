@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Practical 10{% endblock %}</title>
+  <style>
+    body        { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+    nav a       { margin-right: 12px; text-decoration: none; color: #0645ad; }
+    nav a:hover { text-decoration: underline; }
+    hr          { margin: 16px 0 24px; }
+    label       { display: inline-block; min-width: 130px; }
+    input       { padding: 4px 6px; margin: 4px 0; }
+    button      { padding: 6px 14px; margin-top: 8px; cursor: pointer; }
+    .error      { color: #c0392b; }
+    .success    { color: #1e8449; }
+    ul.errors   { color: #c0392b; padding-left: 20px; }
+    .flash      { background: #eef; padding: 8px 12px; border-radius: 4px; margin-bottom: 12px; }
+    .who        { float: right; font-size: 0.9em; color: #555; }
+  </style>
+</head>
+<body>
+  <div class="who">
+    {% if session.get('user_name') %}
+      Logged in as <strong>{{ session.user_name }}</strong> —
+      <a href="{{ url_for('dashboard') }}">Dashboard</a> |
+      <a href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Login</a>
+    {% endif %}
+  </div>
+
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('task1') }}">Task 1</a>
+    <a href="{{ url_for('task2') }}">Task 2</a>
+    <a href="{{ url_for('task3') }}">Task 3</a>
+    <a href="{{ url_for('task4') }}">Task 4</a>
+    <a href="{{ url_for('task5') }}">Task 5</a>
+  </nav>
+  <hr>
+
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for category, msg in msgs %}
+      <div class="flash">{{ msg }}</div>
+    {% endfor %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</body>
+</html>
