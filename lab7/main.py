@@ -1,3 +1,5 @@
+cnt = 3
+
 def read_int(prompt):
     while True:
         try:
@@ -31,6 +33,8 @@ def exam_admission():
 
     if attendance >= 70 and project_done in ("yes", "y"):
         print("Allowed to exam")
+    elif attendance >= 70 and project_done in ("no", "n"):
+        print("Not allowed")
     else:
         print("Not allowed")
 
@@ -186,6 +190,32 @@ def atm_simulator():
         else:
             print("Error: invalid menu choice.")
 
+def task():
+    number = read_int("Enter a whole number: ")
+    print(len(str(number)))
+
+def task2():
+    global cnt
+    login = "login"
+    pwd = "nader"
+    loginin = input("Enter login: ")
+    pwdin = input("Enter password: ")
+
+    if loginin == login and pwdin == pwd:
+        print("Logged in")
+        return
+    elif loginin == login and pwdin != pwd:
+        if cnt <= 1:
+            print("Login denied")
+            cnt = 3
+            return
+        else:
+            cnt -= 1
+            print(f"Wrong password (remaining attemps - {cnt})")
+    else:
+        print("Invalid input")
+        return
+
 
 def show_menu():
     print("\nweb lab7")
@@ -199,6 +229,8 @@ def show_menu():
     print(" 8. Multiplication Table")
     print(" 9. Password Verification")
     print("10. ATM Simulator")
+    print("11. task")
+    print("12. task2")
     print(" 0. Exit")
 
 
@@ -214,11 +246,13 @@ def main():
         8: multiplication_table,
         9: password_verification,
         10: atm_simulator,
+        11: task,
+        12: task2,
     }
 
     while True:
         show_menu()
-        choice = input("Select a task (0-10): ").strip()
+        choice = input(f"Select a task (0-{len(tasks)}): ").strip()
 
         if choice == "0":
             break
