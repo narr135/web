@@ -3,9 +3,7 @@ from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
-
 EMAIL_RE = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]+$')
-
 
 
 @app.route('/')
@@ -21,6 +19,10 @@ def task1():
     name = ''
     if request.method == 'POST':
         name = request.form.get('student', '').strip()
+        if len(re.findall(r'[1-9]', name)) > 0:
+            message = 'No numbers allowed!'
+            return render_template('task1.html',
+                           message=message, success=False, name=name)
         if not name:
             message = 'Name is required!'
         else:
