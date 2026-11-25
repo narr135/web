@@ -69,10 +69,6 @@ a:hover {
     color: var(--forest-deep);
 }
 
-[data-bs-theme="dark"] a {
-    color: var(--forest);
-}
-
 ::selection {
     background: rgba(47, 93, 80, 0.22);
 }
@@ -139,6 +135,32 @@ a:hover {
 .btn-link {
     --bs-btn-color: var(--forest);
     --bs-btn-hover-color: var(--forest-deep);
+}
+
+[data-bs-theme="dark"] .btn-primary {
+    --bs-btn-color: #10201a;
+    --bs-btn-hover-color: #10201a;
+    --bs-btn-active-color: #10201a;
+    --bs-btn-disabled-color: #10201a;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+    --bs-btn-hover-color: #10201a;
+    --bs-btn-active-color: #10201a;
+}
+
+/* Keep link-buttons readable even if a generic anchor colour is applied. */
+.btn.btn-primary,
+.btn.btn-primary:link,
+.btn.btn-primary:visited,
+.btn.btn-primary:focus-visible {
+    color: var(--bs-btn-color);
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:active,
+.btn.btn-primary.active {
+    color: var(--bs-btn-hover-color);
 }
 
 .btn-icon {
@@ -286,6 +308,10 @@ a:hover {
 
 .navbar-toggler {
     border-color: var(--line);
+}
+
+[data-bs-theme="dark"] .navbar-toggler-icon {
+    filter: invert(1);
 }
 
 /* Messages --------------------------------------------------- */
@@ -898,10 +924,13 @@ a:hover {
 .home-cta .btn-primary {
     --bs-btn-bg: #fff;
     --bs-btn-border-color: #fff;
-    --bs-btn-color: var(--forest-deep);
-    --bs-btn-hover-bg: var(--paper);
-    --bs-btn-hover-border-color: var(--paper);
-    --bs-btn-hover-color: var(--forest-deep);
+    --bs-btn-color: #23463d;
+    --bs-btn-hover-bg: #f6f1e7;
+    --bs-btn-hover-border-color: #f6f1e7;
+    --bs-btn-hover-color: #23463d;
+    --bs-btn-active-bg: #efe8da;
+    --bs-btn-active-border-color: #efe8da;
+    --bs-btn-active-color: #23463d;
 }
 
 .home-cta .btn-outline-secondary {
@@ -952,6 +981,10 @@ a:hover {
 
 .catalog-filters > div:not(.filter-search) {
     flex: 0 1 12rem;
+}
+
+.catalog-filters--live .filter-apply {
+    display: none;
 }
 
 .filter-search {
@@ -1040,16 +1073,27 @@ a:hover {
     aspect-ratio: 2 / 3;
     box-shadow: var(--shadow-md);
     background: var(--paper-soft);
+    display: flex;
+    align-items: stretch;
 }
 
 .detail-cover img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
 .detail-cover .book-cover-placeholder {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
     font-size: 1.4rem;
+}
+
+.detail-cover .cover-title {
+    font-size: 0.95rem;
+    max-width: 16rem;
 }
 
 .detail-cover .cover-initials {

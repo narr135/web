@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static static_version %}
 
 {% block title %}{{ shelf.name }}{% endblock %}
 
@@ -114,5 +114,5 @@
 
 {% block extra_js %}
 <script src="{% static 'vendor/sortablejs/Sortable.min.js' %}"></script>
-<script src="{% static 'js/shelves.js' %}" defer></script>
+<script src="{% static_v 'js/shelves.js' %}" defer></script>
 {% endblock %}

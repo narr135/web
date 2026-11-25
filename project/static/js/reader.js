@@ -490,6 +490,37 @@
         applyEpubFontSize();
     }
 
+    function isTypingTarget(target) {
+        return Boolean(
+            target &&
+                target.closest &&
+                target.closest("input, textarea, select, [contenteditable='true']")
+        );
+    }
+
+    function handleEpubKey(event) {
+        if (
+            event.defaultPrevented ||
+            event.altKey ||
+            event.ctrlKey ||
+            event.metaKey ||
+            isTypingTarget(event.target)
+        ) {
+            return;
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+            event.preventDefault();
+            if (state.rendition) {
+                state.rendition.prev();
+            }
+        } else if (event.key === "ArrowRight" || event.key === "PageDown") {
+            event.preventDefault();
+            if (state.rendition) {
+                state.rendition.next();
+            }
+        }
+    }
+
     async function initEpub() {
         if (typeof window.ePub !== "function") {
             throw new Error("EPUB reader library did not load.");
@@ -516,13 +547,7 @@
         state.rendition.hooks.content.register(function (contents) {
             applyEpubThemeToDocument(contents.document);
             try {
-                contents.document.addEventListener("keydown", function (event) {
-                    if (event.key === "ArrowLeft") {
-                        state.rendition.prev();
-                    } else if (event.key === "ArrowRight") {
-                        state.rendition.next();
-                    }
-                });
+                contents.document.addEventListener("keydown", handleEpubKey);
             } catch (error) {
                 /* ignore */
             }
@@ -530,6 +555,9 @@
         });
 
         state.rendition.on("relocated", updateEpubPercentFromLocation);
+
+        // Arrow keys should work without first clicking inside the EPUB iframe.
+        document.addEventListener("keydown", handleEpubKey);
 
         document.getElementById("epub-prev").addEventListener("click", function () {
             state.rendition.prev();
@@ -668,10 +696,18 @@
             if (event.target.matches("input, textarea, select")) {
                 return;
             }
-            if (event.key === "ArrowDown" || event.key === "PageDown") {
+            if (
+                event.key === "ArrowDown" ||
+                event.key === "ArrowRight" ||
+                event.key === "PageDown"
+            ) {
                 event.preventDefault();
                 elements.content.scrollBy({ top: elements.content.clientHeight * 0.82, behavior: "smooth" });
-            } else if (event.key === "ArrowUp" || event.key === "PageUp") {
+            } else if (
+                event.key === "ArrowUp" ||
+                event.key === "ArrowLeft" ||
+                event.key === "PageUp"
+            ) {
                 event.preventDefault();
                 elements.content.scrollBy({ top: -elements.content.clientHeight * 0.82, behavior: "smooth" });
             }

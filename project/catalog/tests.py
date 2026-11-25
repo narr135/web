@@ -363,3 +363,11 @@ class CatalogViewTests(TestCase):
             reverse("catalog:book_download", kwargs={"slug": book.slug})
         )
         self.assertEqual(response.status_code, 302)
+
+
+class StaticAssetVersionTests(TestCase):
+    def test_app_assets_include_a_cache_busting_version(self):
+        response = self.client.get(reverse("catalog:home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "/static/css/app.css?v=")
+        self.assertContains(response, "/static/js/theme.js?v=")

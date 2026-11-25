@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static static_version %}
 
 {% block title %}Reading {{ book.title }}{% endblock %}
 {% block body_class %}reader-body{% endblock %}
@@ -9,7 +9,7 @@
 {% block main_class %}reader-main{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/reader.css' %}">
+<link rel="stylesheet" href="{% static_v 'css/reader.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -145,5 +145,5 @@
 {% block extra_js %}
 <script src="{% static 'vendor/jszip/jszip.min.js' %}"></script>
 <script src="{% static 'vendor/epubjs/epub.min.js' %}"></script>
-<script type="module" src="{% static 'js/reader.js' %}"></script>
+<script type="module" src="{% static_v 'js/reader.js' %}"></script>
 {% endblock %}

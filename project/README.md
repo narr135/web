@@ -15,7 +15,8 @@ CRUD, server-side validation, clear error messages, and data that survives a res
 ### Public (no account required)
 
 - Browse the catalog with search by title, author, or ISBN.
-- Filter by category and sort by newest, title, author, or downloads.
+- Filter by category and sort by newest, title, author, or downloads. Filters apply
+  immediately as you type or change a selection.
 - Paginated results.
 - Book detail pages with metadata and related titles.
 - Read PDF, EPUB, and TXT files in the built-in browser reader:
@@ -184,6 +185,7 @@ project/
 │   ├── js/theme.js
 │   ├── js/reader.js
 │   ├── js/shelves.js
+│   ├── js/catalog-filters.js
 │   └── vendor/             # Bootstrap, icons, PDF.js, ePub.js, ...
 ├── catalog/templates/      # Catalog, reader, staff pages
 ├── library/templates/      # Dashboard, shelf pages
@@ -196,6 +198,11 @@ project/
 
 `media/`, `db.sqlite3`, and `.venv/` are intentionally ignored by git. Recreate them
 with `migrate` and `seed_demo`.
+
+App-owned stylesheets and scripts are linked through the `static_v` template tag
+(`catalog/templatetags/static_version.py`), which appends each file's modification
+time to its URL. Editing CSS or JavaScript therefore invalidates browser caches
+automatically.
 
 ---
 
@@ -284,6 +291,9 @@ filenames cannot overwrite each other.
 - EPUB rendering uses ePub.js with generated locations for percentage calculation.
   Reader styles follow the site light/dark theme.
 - TXT files are fetched as text and rendered with `white-space: pre-wrap`.
+- Arrow keys turn pages in PDF and EPUB, and scroll text files. `PageUp`/`PageDown`
+  work as well. EPUB keyboard handling works whether focus is on the page or inside
+  the reading frame.
 - Progress is saved with a debounced `POST` to the progress API. The request includes
   the CSRF token and uses `keepalive` for page exits.
 - Guests can read everything but see a banner explaining that progress is not saved.

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static_version %}
 
 {% block title %}Catalog{% endblock %}
 
@@ -41,7 +42,7 @@
                     <option value="popular" {% if sort == "popular" %}selected{% endif %}>Most downloaded</option>
                 </select>
             </div>
-            <button class="btn btn-primary" type="submit">Apply</button>
+            <button class="btn btn-primary filter-apply" type="submit">Apply</button>
             {% if query or selected_category %}
                 <a class="btn btn-link" href="{% url 'catalog:book_list' %}">Clear</a>
             {% endif %}
@@ -102,4 +103,8 @@
         {% endif %}
     </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static_v 'js/catalog-filters.js' %}" defer></script>
 {% endblock %}
