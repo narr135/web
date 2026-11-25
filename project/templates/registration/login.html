@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center align-items-center g-5">
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="auth-aside">
+                    <span class="eyebrow">Welcome back</span>
+                    <h1>Pick up where you left off.</h1>
+                    <p>Your shelves, your reading progress, and every book you have opened are waiting.</p>
+                    <div class="auth-quote">
+                        <i class="bi bi-quote"></i>
+                        <p>“A reader lives a thousand lives before he dies.”</p>
+                        <span>George R. R. Martin</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-5">
+                <div class="card auth-card">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h3 mb-1">Log in to {{ SITE_NAME }}</h2>
+                        <p class="text-body-secondary mb-4">Save your place and arrange your personal shelves.</p>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+                            {% include "partials/form_field.html" with field=form.username %}
+                            {% include "partials/form_field.html" with field=form.password %}
+                            <button class="btn btn-primary w-100 py-2 mt-2" type="submit">Log in</button>
+                        </form>
+
+                        <p class="text-center text-body-secondary mt-4 mb-0">
+                            New here? <a href="{% url 'register' %}">Create an account</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

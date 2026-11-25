@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }}{% endblock %}
+{% block description %}{{ book.title }} by {{ book.author }}.{% endblock %}
+
+{% block content %}
+<section class="section book-detail-section">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="{% url 'catalog:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'catalog:book_list' %}">Catalog</a></li>
+                <li class="breadcrumb-item"><a href="{{ book.category.get_absolute_url }}">{{ book.category.name }}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ book.title|truncatechars:40 }}</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <div class="col-lg-4">
+                <div class="detail-cover-wrap">
+                    <div class="detail-cover" style="--cover-seed: {{ book.pk }};">
+                        {% if book.cover %}
+                            <img src="{{ book.cover.url }}" alt="Cover of {{ book.title }}">
+                        {% elif book.cover_url %}
+                            <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}">
+                        {% else %}
+                            <div class="book-cover-placeholder">
+                                <span class="cover-initials">{{ book.title|slice:":1" }}</span>
+                                <span class="cover-title">{{ book.title }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if book.file_type %}
+                        <div class="detail-format">
+                            <i class="bi bi-file-earmark-text"></i>
+                            {{ book.file_type|upper }} file · {{ book.file_size|filesizeformat }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <span class="category-pill">{{ book.category.name }}</span>
+                <h1 class="detail-title">{{ book.title }}</h1>
+                {% if book.subtitle %}<p class="detail-subtitle">{{ book.subtitle }}</p>{% endif %}
+                <p class="detail-author">by <strong>{{ book.author }}</strong></p>
+
+                {% if progress and progress.percent > 0 %}
+                    <div class="detail-progress">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="small text-body-secondary">You have read {{ progress.percent|floatformat:0 }}%</span>
+                            <span class="small text-body-secondary">Last opened {{ progress.updated_at|date:"M j, Y" }}</span>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Your reading progress"
+                             aria-valuenow="{{ progress.percent|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: {{ progress.percent|floatformat:0 }}%"></div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="detail-actions">
+                    {% if file_available %}
+                        {% if book.is_readable %}
+                            <a class="btn btn-primary btn-lg" href="{% url 'catalog:reader' book.slug %}">
+                                <i class="bi bi-book me-2"></i>
+                                {% if progress and progress.percent > 0 %}Continue reading{% else %}Read now{% endif %}
+                            </a>
+                        {% else %}
+                            <span class="btn btn-secondary btn-lg disabled">Preview unavailable</span>
+                        {% endif %}
+                        <a class="btn btn-outline-secondary btn-lg" href="{% url 'catalog:book_download' book.slug %}">
+                            <i class="bi bi-download me-2"></i>Download
+                        </a>
+                    {% else %}
+                        <div class="alert alert-warning mb-0" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            The file for this book is missing. Please contact the librarian.
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if book.is_readable and file_available %}
+                    <p class="reader-note">
+                        <i class="bi bi-display me-1"></i>
+                        Opens in the built-in {{ book.file_type|upper }} reader.
+                        {% if not user.is_authenticated %}
+                            <a href="{% url 'login' %}?next={{ request.path|urlencode }}">Log in</a> to save your progress.
+                        {% endif %}
+                    </p>
+                {% endif %}
+
+                <div class="row g-4 mt-4">
+                    <div class="col-xl-7">
+                        <h2 class="detail-heading">About this book</h2>
+                        {% if book.description %}
+                            <div class="detail-description">{{ book.description|linebreaks }}</div>
+                        {% else %}
+                            <p class="text-body-secondary">No description has been added yet.</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="metadata-card">
+                            <h2 class="detail-heading">Details</h2>
+                            <dl class="metadata-list">
+                                {% if book.isbn %}<dt>ISBN</dt><dd>{{ book.isbn }}</dd>{% endif %}
+                                {% if book.publisher %}<dt>Publisher</dt><dd>{{ book.publisher }}</dd>{% endif %}
+                                {% if book.published_date %}<dt>Published</dt><dd>{{ book.published_date|date:"F j, Y" }}</dd>{% endif %}
+                                {% if book.language %}<dt>Language</dt><dd>{{ book.language }}</dd>{% endif %}
+                                {% if book.page_count %}<dt>Pages</dt><dd>{{ book.page_count }}</dd>{% endif %}
+                                <dt>Format</dt><dd>{{ book.file_type|upper|default:"—" }}</dd>
+                                <dt>File size</dt><dd>{{ book.file_size|filesizeformat }}</dd>
+                                <dt>Downloads</dt><dd>{{ book.download_count }}</dd>
+                                <dt>Added</dt><dd>{{ book.created_at|date:"M j, Y" }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shelf-panel mt-4">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                        <h2 class="detail-heading mb-0"><i class="bi bi-collection me-2"></i>Shelve this book</h2>
+                        {% if user.is_authenticated %}
+                            <a class="btn btn-sm btn-outline-secondary" href="{% url 'library:shelf_create' %}">
+                                <i class="bi bi-plus-lg me-1"></i>New shelf
+                            </a>
+                        {% endif %}
+                    </div>
+                    {% if user.is_authenticated %}
+                        {% if shelves %}
+                            <div class="shelf-add-list">
+                                {% for shelf in shelves %}
+                                    <div class="shelf-add-row">
+                                        <div>
+                                            <span class="shelf-add-name">{{ shelf.name }}</span>
+                                            {% if shelf.is_default %}<span class="badge subtle-badge ms-2">default</span>{% endif %}
+                                            <span class="shelf-add-count">{{ shelf.item_total }} book{{ shelf.item_total|pluralize }}</span>
+                                        </div>
+                                        {% if shelf.pk in shelf_ids_with_book %}
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="saved-label"><i class="bi bi-check2"></i> On this shelf</span>
+                                                <a class="btn btn-sm btn-outline-secondary"
+                                                   href="{% url 'library:shelf_detail' shelf.pk %}">Open</a>
+                                            </div>
+                                        {% else %}
+                                            <form method="post" action="{% url 'library:shelf_add_to' shelf.pk %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="book_id" value="{{ book.pk }}">
+                                                <button class="btn btn-sm btn-outline-primary" type="submit">Add</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-body-secondary mb-0">You do not have any shelves yet.</p>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-body-secondary mb-2">
+                            Personal shelves and saved progress are available with a free account.
+                        </p>
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-primary btn-sm" href="{% url 'register' %}">Create account</a>
+                            <a class="btn btn-outline-secondary btn-sm"
+                               href="{% url 'login' %}?next={{ request.path|urlencode }}">Log in</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if user.is_staff %}
+                    <div class="staff-actions mt-4">
+                        <span class="text-body-secondary small me-2">Staff actions:</span>
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:manage_book_edit' book.slug %}">
+                            <i class="bi bi-pencil me-1"></i>Edit
+                        </a>
+                        <a class="btn btn-sm btn-outline-danger" href="{% url 'catalog:manage_book_delete' book.slug %}">
+                            <i class="bi bi-trash me-1"></i>Delete
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if related_books %}
+            <div class="related-section">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Same shelf</span>
+                        <h2 class="section-title">More in {{ book.category.name }}</h2>
+                    </div>
+                    <a class="section-link" href="{{ book.category.get_absolute_url }}">View category <i class="bi bi-arrow-right"></i></a>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
+                    {% for related in related_books %}
+                        {% include "partials/book_card.html" with book=related %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

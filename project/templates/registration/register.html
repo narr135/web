@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Create an account{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center align-items-center g-5">
+            <div class="col-lg-5 d-none d-lg-block">
+                <div class="auth-aside">
+                    <span class="eyebrow">Join the library</span>
+                    <h1>Build a shelf that feels like yours.</h1>
+                    <p>Create an account to save reading progress, collect books on custom shelves, and return to them from any device.</p>
+                    <ul class="auth-benefits">
+                        <li><i class="bi bi-check2-circle"></i>Resume every book exactly where you stopped</li>
+                        <li><i class="bi bi-check2-circle"></i>Group books into as many shelves as you like</li>
+                        <li><i class="bi bi-check2-circle"></i>Read and download in the browser, free</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-5">
+                <div class="card auth-card">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h3 mb-1">Create your account</h2>
+                        <p class="text-body-secondary mb-4">No email confirmation needed for this local project.</p>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <form method="post" novalidate>
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {% include "partials/form_field.html" with field=field %}
+                            {% endfor %}
+                            <button class="btn btn-primary w-100 py-2 mt-2" type="submit">Create account</button>
+                        </form>
+
+                        <p class="text-center text-body-secondary mt-4 mb-0">
+                            Already have an account? <a href="{% url 'login' %}">Log in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

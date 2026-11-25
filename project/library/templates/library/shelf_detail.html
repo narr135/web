@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ shelf.name }}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="mb-3">
+            <ol class="breadcrumb small">
+                <li class="breadcrumb-item"><a href="{% url 'library:dashboard' %}">My library</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ shelf.name }}</li>
+            </ol>
+        </nav>
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
+            <div>
+                <span class="eyebrow">{% if shelf.is_default %}Default shelf{% else %}Personal shelf{% endif %}</span>
+                <h1>{{ shelf.name }}</h1>
+                <p>
+                    {{ rows|length }} book{{ rows|length|pluralize }}.
+                    {% if rows %}Drag the handle to arrange them.{% endif %}
+                </p>
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-primary" href="{% url 'catalog:book_list' %}">
+                    <i class="bi bi-plus-lg me-1"></i>Add books
+                </a>
+                <a class="btn btn-outline-secondary" href="{% url 'library:shelf_edit' shelf.pk %}">
+                    <i class="bi bi-pencil me-1"></i>Rename
+                </a>
+                {% if not shelf.is_default %}
+                    <a class="btn btn-outline-danger" href="{% url 'library:shelf_delete' shelf.pk %}">
+                        <i class="bi bi-trash me-1"></i>Delete
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section pt-4">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="small text-body-secondary" id="reorder-status" aria-live="polite"></span>
+            {% if shelf.is_default %}
+                <span class="small text-body-secondary"><i class="bi bi-pin-angle me-1"></i>Your default shelf cannot be deleted.</span>
+            {% endif %}
+        </div>
+
+        <div class="shelf-list" id="shelf-items"
+             data-reorder-url="{% url 'library:shelf_reorder' shelf.pk %}">
+            {% for row in rows %}
+                <article class="shelf-item" data-item-id="{{ row.item.pk }}">
+                    <button class="drag-handle" type="button" aria-label="Drag to reorder {{ row.item.book.title }}">
+                        <i class="bi bi-grip-vertical"></i>
+                    </button>
+                    <div class="shelf-item-cover">
+                        {% if row.item.book.cover %}
+                            <img src="{{ row.item.book.cover.url }}" alt="" loading="lazy">
+                        {% else %}
+                            <span>{{ row.item.book.title|slice:":1" }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="shelf-item-main">
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <a class="shelf-item-title" href="{{ row.item.book.get_absolute_url }}">{{ row.item.book.title }}</a>
+                            <span class="badge text-bg-secondary">{{ row.item.book.file_type|upper }}</span>
+                        </div>
+                        <p class="shelf-item-author">{{ row.item.book.author }} · {{ row.item.book.category.name }}</p>
+                        {% if row.progress %}
+                            <div class="shelf-item-progress">
+                                <div class="progress" role="progressbar" aria-label="Reading progress"
+                                     aria-valuenow="{{ row.progress.percent|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width: {{ row.progress.percent|floatformat:0 }}%"></div>
+                                </div>
+                                <span>{{ row.progress.percent|floatformat:0 }}%</span>
+                            </div>
+                        {% else %}
+                            <span class="shelf-item-unread">Not started</span>
+                        {% endif %}
+                    </div>
+                    <div class="shelf-item-actions">
+                        {% if row.item.book.is_readable %}
+                            <a class="btn btn-sm btn-primary" href="{% url 'catalog:reader' row.item.book.slug %}">
+                                <i class="bi bi-book me-1"></i>Read
+                            </a>
+                        {% endif %}
+                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:book_download' row.item.book.slug %}"
+                           aria-label="Download {{ row.item.book.title }}">
+                            <i class="bi bi-download"></i>
+                        </a>
+                        <form method="post" action="{% url 'library:shelf_remove' row.item.pk %}">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-outline-danger" type="submit"
+                                    aria-label="Remove {{ row.item.book.title }} from {{ shelf.name }}">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-state">
+                    <i class="bi bi-bookmark-plus"></i>
+                    <h2 class="h4">This shelf is empty</h2>
+                    <p>Browse the catalog and add a few books to get started.</p>
+                    <a class="btn btn-primary" href="{% url 'catalog:book_list' %}">Browse the catalog</a>
+                </div>
+            {% endfor %}
+        </div>
+        {% csrf_token %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'vendor/sortablejs/Sortable.min.js' %}"></script>
+<script src="{% static 'js/shelves.js' %}" defer></script>
+{% endblock %}

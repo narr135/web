@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}My library{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
+            <div>
+                <span class="eyebrow">Welcome, {{ user.get_username }}</span>
+                <h1>My library</h1>
+                <p>Your shelves, your progress, and the books waiting for you.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a class="btn btn-primary" href="{% url 'library:shelf_create' %}">
+                    <i class="bi bi-plus-lg me-1"></i>New shelf
+                </a>
+                <a class="btn btn-outline-secondary" href="{% url 'catalog:book_list' %}">Browse catalog</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section pt-4">
+    <div class="container">
+        <div class="row g-3 mb-5">
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="bi bi-collection"></i></span>
+                    <span class="stat-value">{{ stats.shelves }}</span>
+                    <span class="stat-label">Shelves</span>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="bi bi-bookmarks"></i></span>
+                    <span class="stat-value">{{ stats.shelved_books }}</span>
+                    <span class="stat-label">Books on shelves</span>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="bi bi-book-half"></i></span>
+                    <span class="stat-value">{{ stats.started }}</span>
+                    <span class="stat-label">Books started</span>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="stat-card">
+                    <span class="stat-icon"><i class="bi bi-check2-circle"></i></span>
+                    <span class="stat-value">{{ stats.finished }}</span>
+                    <span class="stat-label">Books finished</span>
+                </div>
+            </div>
+        </div>
+
+        {% if continue_reading %}
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">Pick up a book</span>
+                    <h2 class="section-title">Continue reading</h2>
+                </div>
+            </div>
+            <div class="continue-grid mb-5">
+                {% for progress in continue_reading %}
+                    <a class="continue-card" href="{% url 'catalog:reader' progress.book.slug %}">
+                        <div class="continue-cover">
+                            {% if progress.book.cover %}
+                                <img src="{{ progress.book.cover.url }}" alt="" loading="lazy">
+                            {% else %}
+                                <span>{{ progress.book.title|slice:":1" }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="continue-body">
+                            <h3>{{ progress.book.title }}</h3>
+                            <p>{{ progress.book.author }}</p>
+                            <div class="progress" role="progressbar" aria-label="Reading progress"
+                                 aria-valuenow="{{ progress.percent|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: {{ progress.percent|floatformat:0 }}%"></div>
+                            </div>
+                            <span class="continue-percent">{{ progress.percent|floatformat:0 }}% read</span>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Your shelves</span>
+                <h2 class="section-title">Arrange your reading</h2>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+            {% for shelf in shelves %}
+                <div class="col">
+                    <a class="shelf-card" href="{% url 'library:shelf_detail' shelf.pk %}">
+                        <div class="shelf-card-top">
+                            <span class="shelf-card-icon"><i class="bi bi-collection"></i></span>
+                            {% if shelf.is_default %}
+                                <span class="badge subtle-badge">Default</span>
+                            {% endif %}
+                        </div>
+                        <h3>{{ shelf.name }}</h3>
+                        <p>{{ shelf.item_total }} book{{ shelf.item_total|pluralize }} on this shelf</p>
+                        <span class="shelf-card-link">Open shelf <i class="bi bi-arrow-right"></i></span>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="empty-state">
+                        <i class="bi bi-collection"></i>
+                        <h2 class="h4">No shelves yet</h2>
+                        <p>Your default shelf is created automatically, or make a new one.</p>
+                        <a class="btn btn-primary" href="{% url 'library:shelf_create' %}">Create a shelf</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

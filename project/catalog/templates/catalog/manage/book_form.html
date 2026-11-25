@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_create %}Add a book{% else %}Edit {{ book.title }}{% endif %}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+    <div class="container">
+        <span class="eyebrow">Staff area</span>
+        <h1>{% if is_create %}Add a book{% else %}Edit book{% endif %}</h1>
+        <p>
+            {% if is_create %}
+                Upload a PDF, EPUB, or TXT file and describe the book.
+            {% else %}
+                Update the record for “{{ book.title }}”. Leave the file field empty to keep the current file.
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<section class="section pt-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <form method="post" enctype="multipart/form-data" class="card content-card p-4 p-md-5">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Some fields need attention.</strong>
+                            Check the highlighted fields below and try again.
+                        </div>
+                    {% endif %}
+
+                    <h2 class="form-section-title">Book details</h2>
+                    <div class="row">
+                        <div class="col-md-8">{% include "partials/form_field.html" with field=form.title %}</div>
+                        <div class="col-md-4">{% include "partials/form_field.html" with field=form.category %}</div>
+                        <div class="col-12">{% include "partials/form_field.html" with field=form.subtitle %}</div>
+                        <div class="col-md-7">{% include "partials/form_field.html" with field=form.author %}</div>
+                        <div class="col-md-5">{% include "partials/form_field.html" with field=form.isbn %}</div>
+                        <div class="col-md-7">{% include "partials/form_field.html" with field=form.publisher %}</div>
+                        <div class="col-md-5">{% include "partials/form_field.html" with field=form.published_date %}</div>
+                        <div class="col-md-6">{% include "partials/form_field.html" with field=form.language %}</div>
+                        <div class="col-md-6">{% include "partials/form_field.html" with field=form.page_count %}</div>
+                        <div class="col-12">{% include "partials/form_field.html" with field=form.description %}</div>
+                    </div>
+
+                    <h2 class="form-section-title mt-4">Files</h2>
+                    <div class="upload-note">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Accepted formats: <strong>PDF, EPUB, TXT</strong>. Maximum size: {{ MAX_BOOK_UPLOAD_MB }} MB.
+                        Covers can be JPG, PNG, or WebP up to 5 MB.
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">{% include "partials/form_field.html" with field=form.file %}</div>
+                        <div class="col-md-5">{% include "partials/form_field.html" with field=form.cover %}</div>
+                        <div class="col-12">{% include "partials/form_field.html" with field=form.cover_url %}</div>
+                    </div>
+
+                    {% if book and book.file %}
+                        <div class="current-file">
+                            <span class="current-file-label">Current file</span>
+                            <a href="{% url 'catalog:book_file' book.slug %}" target="_blank" rel="noopener">
+                                <i class="bi bi-file-earmark-text me-1"></i>{{ book.download_filename }}
+                            </a>
+                            <span class="text-body-secondary small">({{ book.file_size|filesizeformat }})</span>
+                        </div>
+                    {% endif %}
+                    {% if book and book.cover %}
+                        <div class="current-cover">
+                            <span class="current-file-label">Current cover</span>
+                            <img src="{{ book.cover.url }}" alt="Current cover for {{ book.title }}">
+                        </div>
+                    {% endif %}
+
+                    <div class="d-flex flex-wrap gap-2 mt-4 pt-3 border-top">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="bi bi-check-lg me-1"></i>{% if is_create %}Add book{% else %}Save changes{% endif %}
+                        </button>
+                        <a class="btn btn-outline-secondary"
+                           href="{% if book %}{{ book.get_absolute_url }}{% else %}{% url 'catalog:manage_book_list' %}{% endif %}">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4">
+                <div class="card content-card p-4 form-help-card">
+                    <h2 class="h5"><i class="bi bi-lightbulb me-2"></i>Good to know</h2>
+                    <ul class="mb-0">
+                        <li>Authors are free text. Use commas or semicolons for co-authors.</li>
+                        <li>ISBN is optional, but if provided its checksum is verified.</li>
+                        <li>Slugs are generated automatically from the title.</li>
+                        <li>PDF, EPUB, and TXT books open in the built-in reader.</li>
+                        <li>Categories are managed in the <a href="{% url 'admin:index' %}">Django admin</a>.</li>
+                        <li>Fields for future metadata imports are stored in the database and visible in the admin.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

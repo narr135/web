@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Catalog{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">The catalog</span>
+        <h1>Find your next book</h1>
+        <p>Browse every title in the library. Guests can read and download; members can save their place and build shelves.</p>
+    </div>
+</section>
+
+<section class="section pt-4">
+    <div class="container">
+        <form class="catalog-filters" method="get" role="search">
+            <div class="filter-search">
+                <i class="bi bi-search"></i>
+                <label class="visually-hidden" for="catalog-query">Search</label>
+                <input id="catalog-query" type="search" name="q" value="{{ query }}"
+                       placeholder="Search title, author, or ISBN…">
+            </div>
+            <div>
+                <label class="visually-hidden" for="catalog-category">Category</label>
+                <select id="catalog-category" name="category" class="form-select">
+                    <option value="">All categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.slug }}"
+                            {% if selected_category and selected_category.pk == category.pk %}selected{% endif %}>
+                            {{ category.name }} ({{ category.book_count }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="visually-hidden" for="catalog-sort">Sort</label>
+                <select id="catalog-sort" name="sort" class="form-select">
+                    <option value="newest" {% if sort == "newest" %}selected{% endif %}>Newest first</option>
+                    <option value="title" {% if sort == "title" %}selected{% endif %}>Title A–Z</option>
+                    <option value="author" {% if sort == "author" %}selected{% endif %}>Author A–Z</option>
+                    <option value="popular" {% if sort == "popular" %}selected{% endif %}>Most downloaded</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Apply</button>
+            {% if query or selected_category %}
+                <a class="btn btn-link" href="{% url 'catalog:book_list' %}">Clear</a>
+            {% endif %}
+        </form>
+
+        <div class="results-bar">
+            <p class="mb-0">
+                <strong>{{ result_count }}</strong> book{{ result_count|pluralize }}
+                {% if query %} matching “{{ query }}”{% endif %}
+                {% if selected_category %} in {{ selected_category.name }}{% endif %}
+            </p>
+            {% if selected_category %}
+                <a class="btn btn-sm btn-outline-secondary" href="{% url 'catalog:book_list' %}?sort={{ sort }}">
+                    <i class="bi bi-x-lg me-1"></i>{{ selected_category.name }}
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            {% for book in page_obj.object_list %}
+                {% include "partials/book_card.html" with book=book %}
+            {% empty %}
+                <div class="col-12">
+                    <div class="empty-state">
+                        <i class="bi bi-search"></i>
+                        <h2>No books found</h2>
+                        <p>Try a shorter search, another category, or clear the filters.</p>
+                        <a class="btn btn-outline-secondary" href="{% url 'catalog:book_list' %}">Reset filters</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+            <nav class="mt-5" aria-label="Catalog pages">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                        {% if page_obj.has_previous %}
+                            <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                               aria-label="Previous page"><i class="bi bi-chevron-left"></i></a>
+                        {% else %}
+                            <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                        {% endif %}
+                    </li>
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                    </li>
+                    <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                        {% if page_obj.has_next %}
+                            <a class="page-link" href="?{% if query_string %}{{ query_string }}&{% endif %}page={{ page_obj.next_page_number }}"
+                               aria-label="Next page"><i class="bi bi-chevron-right"></i></a>
+                        {% else %}
+                            <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

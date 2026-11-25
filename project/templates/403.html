@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Access denied{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="error-page text-center mx-auto">
+        <div class="error-code">403</div>
+        <h1>You do not have access to that</h1>
+        <p class="text-body-secondary">
+            {% if exception %}{{ exception }}{% else %}This area is restricted. Log in with an account that has permission.{% endif %}
+        </p>
+        <div class="d-flex gap-2 justify-content-center">
+            <a class="btn btn-primary" href="{% url 'catalog:home' %}">Back home</a>
+            {% if not user.is_authenticated %}
+                <a class="btn btn-outline-secondary" href="{% url 'login' %}">Log in</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

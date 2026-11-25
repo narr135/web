@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Something went wrong{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="error-page text-center mx-auto">
+        <div class="error-code">500</div>
+        <h1>The librarian spilled the tea</h1>
+        <p class="text-body-secondary">Something went wrong on our side. Please try again in a moment.</p>
+        <a class="btn btn-primary" href="{% url 'catalog:home' %}">Back home</a>
+    </div>
+</div>
+{% endblock %}

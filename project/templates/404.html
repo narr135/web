@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="error-page text-center mx-auto">
+        <div class="error-code">404</div>
+        <h1>That page is missing</h1>
+        <p class="text-body-secondary">The link may be old, or the book may have been removed from the shelf.</p>
+        <div class="d-flex gap-2 justify-content-center">
+            <a class="btn btn-primary" href="{% url 'catalog:home' %}">Back home</a>
+            <a class="btn btn-outline-secondary" href="{% url 'catalog:book_list' %}">Browse the catalog</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

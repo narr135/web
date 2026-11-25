@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-7">
+                <span class="eyebrow"><i class="bi bi-stars me-2"></i>A quiet corner of the internet</span>
+                <h1 class="hero-title">Read more.<br><span>Scroll less.</span></h1>
+                <p class="hero-lede">
+                    A small, carefully kept library. Browse the catalog, read books in your browser,
+                    and keep your place on every page.
+                </p>
+                <form class="hero-search" method="get" action="{% url 'catalog:book_list' %}" role="search">
+                    <i class="bi bi-search"></i>
+                    <label class="visually-hidden" for="hero-search-input">Search the catalog</label>
+                    <input id="hero-search-input" type="search" name="q" placeholder="Search by title, author, or ISBN…"
+                           autocomplete="off">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+                <div class="hero-stats">
+                    <div><strong>{{ stats.books }}</strong><span>books</span></div>
+                    <div><strong>{{ stats.categories }}</strong><span>categories</span></div>
+                    <div><strong>{{ stats.authors }}</strong><span>authors</span></div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="hero-shelf" aria-hidden="true">
+                    <div class="shelf-book shelf-book-1"><span>LIBRA</span></div>
+                    <div class="shelf-book shelf-book-2"><span>READ</span></div>
+                    <div class="shelf-book shelf-book-3"><span>SLOW</span></div>
+                    <div class="shelf-book shelf-book-4"><span>REPEAT</span></div>
+                    <div class="shelf-plank"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if user.is_authenticated and continue_reading %}
+<section class="section continue-section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Your reading</span>
+                <h2 class="section-title">Continue where you left off</h2>
+            </div>
+            <a class="section-link" href="{% url 'library:dashboard' %}">My library <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="continue-grid">
+            {% for progress in continue_reading %}
+                <a class="continue-card" href="{% url 'catalog:reader' progress.book.slug %}">
+                    <div class="continue-cover">
+                        {% if progress.book.cover %}
+                            <img src="{{ progress.book.cover.url }}" alt="" loading="lazy">
+                        {% else %}
+                            <span>{{ progress.book.title|slice:":1" }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="continue-body">
+                        <h3>{{ progress.book.title }}</h3>
+                        <p>{{ progress.book.author }}</p>
+                        <div class="progress" role="progressbar" aria-label="Reading progress"
+                             aria-valuenow="{{ progress.percent|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: {{ progress.percent|floatformat:0 }}%"></div>
+                        </div>
+                        <span class="continue-percent">{{ progress.percent|floatformat:0 }}% read</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Fresh from the press</span>
+                <h2 class="section-title">Recently added</h2>
+            </div>
+            <a class="section-link" href="{% url 'catalog:book_list' %}">View all <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            {% for book in books %}
+                {% include "partials/book_card.html" with book=book %}
+            {% empty %}
+                <div class="col-12">
+                    <div class="empty-state">
+                        <i class="bi bi-journal-x"></i>
+                        <h3>The shelves are empty</h3>
+                        <p>The librarian has not added any books yet.</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% if categories %}
+<section class="section categories-section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Browse by mood</span>
+                <h2 class="section-title">Categories</h2>
+            </div>
+        </div>
+        <div class="category-grid">
+            {% for category in categories %}
+                <a class="category-card" href="{{ category.get_absolute_url }}">
+                    <span class="category-icon"><i class="bi bi-collection"></i></span>
+                    <span class="category-name">{{ category.name }}</span>
+                    <span class="category-count">{{ category.book_count }} book{{ category.book_count|pluralize }}</span>
+                    <i class="bi bi-arrow-up-right category-arrow"></i>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<section class="section how-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="how-card">
+                    <span class="how-number">01</span>
+                    <i class="bi bi-search how-icon"></i>
+                    <h3>Find something good</h3>
+                    <p>Search by title, author, or ISBN, then filter by category until something catches your eye.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-card">
+                    <span class="how-number">02</span>
+                    <i class="bi bi-book-open how-icon"></i>
+                    <h3>Read in the browser</h3>
+                    <p>PDFs, EPUBs, and plain text open in a clean reader with your progress saved automatically.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="how-card">
+                    <span class="how-number">03</span>
+                    <i class="bi bi-collection how-icon"></i>
+                    <h3>Arrange your shelves</h3>
+                    <p>Create shelves that match how you read, drag books into place, and pick up where you stopped.</p>
+                </div>
+            </div>
+        </div>
+        {% if not user.is_authenticated %}
+            <div class="home-cta">
+                <div>
+                    <h3>Keep your place, not a bookmark.</h3>
+                    <p>Create an account to save reading progress and build personal shelves.</p>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-primary" href="{% url 'register' %}">Create a free account</a>
+                    <a class="btn btn-outline-secondary" href="{% url 'login' %}">Log in</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

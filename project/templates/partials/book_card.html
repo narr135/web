@@ -1,0 +1,51 @@
+<div class="col">
+    <article class="card book-card h-100">
+        <a href="{{ book.get_absolute_url }}" class="book-cover-link" aria-label="Open {{ book.title }}">
+            <div class="book-cover" style="--cover-seed: {{ book.pk|default:1 }};">
+                {% if book.cover %}
+                    <img src="{{ book.cover.url }}" alt="Cover of {{ book.title }}" loading="lazy">
+                {% elif book.cover_url %}
+                    <img src="{{ book.cover_url }}" alt="Cover of {{ book.title }}" loading="lazy">
+                {% else %}
+                    <div class="book-cover-placeholder">
+                        <span class="cover-initials">{{ book.title|slice:":1" }}</span>
+                        <span class="cover-title">{{ book.title|truncatechars:48 }}</span>
+                    </div>
+                {% endif %}
+                {% if book.file_type %}
+                    <span class="format-badge">{{ book.file_type|upper }}</span>
+                {% endif %}
+            </div>
+        </a>
+        <div class="card-body d-flex flex-column">
+            <div class="book-meta-top">
+                <span class="category-pill">{{ book.category.name }}</span>
+            </div>
+            <h3 class="book-title">
+                <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+            </h3>
+            <p class="book-author">{{ book.author }}</p>
+            {% if progress %}
+                <div class="book-progress mt-auto">
+                    <div class="d-flex justify-content-between small text-body-secondary mb-1">
+                        <span>Your progress</span><span>{{ progress.percent|floatformat:0 }}%</span>
+                    </div>
+                    <div class="progress" role="progressbar" aria-label="Reading progress"
+                         aria-valuenow="{{ progress.percent|floatformat:0 }}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" style="width: {{ progress.percent|floatformat:0 }}%"></div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="book-actions mt-3">
+                <a class="btn btn-sm btn-outline-secondary" href="{{ book.get_absolute_url }}">
+                    Details
+                </a>
+                {% if book.is_readable %}
+                    <a class="btn btn-sm btn-primary" href="{% url 'catalog:reader' book.slug %}">
+                        <i class="bi bi-book me-1"></i>Read
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+</div>
